@@ -1,12 +1,22 @@
 const express = require('express');
 const app = express();
 const userRoutes = require('./routes/user.routes');
-
-app.use(express.json());
+const loggerMiddlware = require('./middleware/logger.middleware');
+const errorMiddleware = require('./middleware/error.middleware');
 
 const PORT = 3000;
+
+//middleware
+app.use(express.json());
+app.use(loggerMiddlware); // register logger middleware
+
+
+
+
 //register the routes
 app.use(userRoutes);
+app.use(errorMiddleware);
+
 
 app.get('/', (req, res) => {
     res.send('Server is running')

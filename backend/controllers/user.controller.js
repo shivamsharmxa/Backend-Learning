@@ -7,11 +7,13 @@ const getAllUsers = (req, res) => {
 };
 
 // POST /users
-const createUser = (req, res) => {
+const createUser = (req, res, next) => {
     const { name } = req.body;
 
     if (!name) {
-        return res.status(400).json({ message: 'Name is required' });
+        const error = new Error('Name is required');
+        error.statusCode = 400;
+        return next(error);
     }
 
     const user = userService.createUser(name);
@@ -19,12 +21,14 @@ const createUser = (req, res) => {
 };
 
 // GET /users/:id
-const getUserById = (req, res) => {
+const getUserById = (req, res, next) => {
     const { id } = req.params;
     const user = userService.getUserById(id);
 
     if (!user) {
-        return res.status(404).json({ message: 'User not found' });
+        const error = new Error('User not found');
+        error.statusCode = 404;
+        return next(error);
     }
 
     res.status(200).json(user);
