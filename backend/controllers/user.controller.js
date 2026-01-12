@@ -1,9 +1,13 @@
 const userService = require('../services/user.service');
 
 // GET /users
-const getAllUsers = (req, res) => {
-    const users = userService.getAllUsers();
-    res.status(200).json(users);
+const getAllUsers = async (req, res, next) => {
+    try {
+        const users = await userService.getAllUsers();
+        res.status(200).json(users);
+    } catch (error) {
+        next(error);
+    }
 };
 
 // POST /users

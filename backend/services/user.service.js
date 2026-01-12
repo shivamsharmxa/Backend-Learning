@@ -1,36 +1,29 @@
-const users = require('../data/user.data');
+const User = require('../models/user.model');
 
-const getAllUsers = () => {
-    return users;
+const getAllUsers = async () => {
+    return await User.find();
 };
 
-const createUser = (name) => {
-    const user = {
-        id: Date.now().toString(),
-        name
-    };
-    users.push(user);
+const createUser = async (name) => {
+    const user = new User({ name });
+    return await user.save();
+};
+
+const getUserById = async (id) => {
+    return await User.findById(id);
+};
+
+const updateUser = async (id, name) => {
+    return await User.findByIdAndUpdate(
+        id,
+        { name },
+        { new: true }
+    );
+};
+
+const deleteUser = async (id) => {
+    const user = await User.findByIdAndDelete(id);
     return user;
-};
-
-const getUserById = (id) => {
-    return users.find(user => user.id === id);
-};
-
-const updateUser = (id, name) => {
-    const user = users.find(u => u.id === id);
-    if (!user) return null;
-
-    user.name = name || user.name;
-    return user;
-};
-
-const deleteUser = (id) => {
-    const index = users.findIndex(u => u.id === id);
-    if (index === -1) return false;
-
-    users.splice(index, 1);
-    return true;
 };
 
 module.exports = {

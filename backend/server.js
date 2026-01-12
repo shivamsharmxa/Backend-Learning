@@ -1,10 +1,13 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const userRoutes = require('./routes/user.routes');
 const loggerMiddlware = require('./middleware/logger.middleware');
 const errorMiddleware = require('./middleware/error.middleware');
+const connectDB = require('./database/connection');
 
 const PORT = 3000;
+connectDB();
 
 //middleware
 app.use(express.json());
