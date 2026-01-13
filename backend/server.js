@@ -5,6 +5,7 @@ const userRoutes = require('./routes/user.routes');
 const loggerMiddlware = require('./middleware/logger.middleware');
 const errorMiddleware = require('./middleware/error.middleware');
 const connectDB = require('./database/connection');
+const authRoutes = require('./routes/auth.routes');
 
 const PORT = 3000;
 connectDB();
@@ -12,6 +13,7 @@ connectDB();
 //middleware
 app.use(express.json());
 app.use(loggerMiddlware); // register logger middleware
+app.use(authRoutes);
 
 
 
